@@ -22,6 +22,11 @@
  * or visit www.oracle.com if you need additional information or have any
  * questions.
  */
+/*
+ * ===========================================================================
+ * (c) Copyright IBM Corp. 2020, 2020 All Rights Reserved
+ * ===========================================================================
+ */
 
 
 /*
@@ -71,6 +76,24 @@
 #endif  /* _M_AMD64 */
 #endif  /* _MSC_VER > 1400 && _MSC_VER < 1600 */
 #endif  /* _MSC_VER */
+
+
+/*
+ * For z/OS, enable use of HEAPPOOLS within Language Environment to
+ * improve multi-threaded malloc performance. #pragma runopts
+ * needs to be applied to translation unit with main function.
+ */
+#ifdef __MVS__
+#ifdef __64BIT__
+
+#pragma runopts("HEAPPOOLS(ALIGN) HEAPPOOLS64(ALIGN)")
+
+#else
+
+#pragma runopts("HEAPPOOLS(ALIGN)")
+
+#endif  /* __64BIT__ */
+#endif  /* __MVS__ */
 
 /*
  * Entry point.
